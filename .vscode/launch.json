@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - App",
+            "request": "launch",
+            "mainClass": "br.com.linctech.app.App",
+            "projectName": "controle-dados-da-populacao_7d60d1a1"
+        }
+    ]
+}
