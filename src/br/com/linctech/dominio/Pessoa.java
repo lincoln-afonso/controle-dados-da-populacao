@@ -2,7 +2,7 @@ package br.com.linctech.dominio;
 
 import java.io.Serializable;
 
-public class Pessoa implements Serializable {
+public class Pessoa implements Serializable, Comparable<Pessoa> {
     private static final long serialVersionUID = 1L;
     private double peso;
     private double altura;
@@ -38,7 +38,7 @@ public class Pessoa implements Serializable {
 
         valorAltura = Double.parseDouble(altura);
         if (valorAltura <= 0)
-        throw new Exception("A altura informada é inválida!");
+            throw new Exception("A altura informada é inválida!");
         this.altura = valorAltura;
     }
 
@@ -57,4 +57,17 @@ public class Pessoa implements Serializable {
     public String toString() {
         return "Pessoa [altura=" + this.getAltura() + ", peso=" + this.getPeso() + ", sexo=" + this.getSexo() + "]\n";
     }
+
+    @Override
+    public int compareTo(Pessoa pessoa) {
+        if (this.getAltura() > pessoa.getAltura())
+            return -1;
+       
+        else if (this.getAltura() < pessoa.getAltura())
+            return 1;
+
+        return 0;
+    }
+
+   
 }
