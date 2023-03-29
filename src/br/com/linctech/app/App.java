@@ -1,5 +1,7 @@
 package br.com.linctech.app;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -9,6 +11,7 @@ import java.util.Scanner;
 import br.com.linctech.dominio.Funcoes;
 import br.com.linctech.dominio.OpcoesMenu;
 import br.com.linctech.dominio.Pessoa;
+import br.com.linctech.dominio.Serializador;
 
 /*
  * Foram levantados os seguintes dados de uma população: sexo, altura (em centímetros) e peso.
@@ -192,18 +195,41 @@ public class App implements Funcoes {
         System.out.println();
     }
 
+    public void inicializarAquivo(String caminho) {
+        File arquivo;
+
+        arquivo = new File(caminho);
+        if (!arquivo.exists()) {
+            try {
+                arquivo.createNewFile();
+
+                Serializador.gravar(new ArrayList<>(), caminho);
+            } catch (IOException e) {
+               System.out.println(e.getMessage());
+            }
+        }
+    }
+
     public static void main(String[] args) {
+        String caminho = "pessoas.dat";
         String opcao = "";
-        List<Pessoa> listPessoas = new ArrayList<>();
         App app = new App();
-        do {
+        List<Pessoa> listPessoas;
+
+        app.inicializarAquivo(caminho);
+
+        do {   
+            listPessoas = (List<Pessoa>) Serializador.recuperar(caminho);
+          
             OpcoesMenu.perguntarOpcaoDesejada();
             opcao = app.getLeia().nextLine();
 
             switch (opcao) {
-            case "1":
-                if (app.cadastrarDados(listPessoas))
+            case "1": 
+                if (app.cadastrarDados(listPessoas)) {
+                    Serializador.gravar(listPessoas, caminho);
                     System.out.println("Cadastro realizado!\n");
+                }
                 break;
 
             case "2":
